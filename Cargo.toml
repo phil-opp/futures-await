@@ -21,8 +21,12 @@ members = ["testcrate"]
 [dependencies]
 futures-await-async-macro = { path = "futures-await-async-macro", version = "0.1" }
 futures-await-await-macro = { path = "futures-await-await-macro", version = "0.1" }
-futures = "0.1"
+futures = {version = "0.1", default-features = false}
 
 [dev-dependencies]
 tokio-core = "0.1"
 tokio-io = "0.1"
+
+[features]
+use_std = ["futures/use_std"]
+default = ["use_std"]

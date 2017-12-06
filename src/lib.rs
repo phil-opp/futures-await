@@ -16,6 +16,12 @@
 #![feature(generator_trait)]
 #![feature(use_extern_macros)]
 #![feature(on_unimplemented)]
+#![cfg_attr(not(feature = "use_std"), feature(alloc))]
+
+#![cfg_attr(not(feature = "use_std"), no_std)]
+
+#[cfg(not(feature = "use_std"))]
+extern crate alloc;
 
 extern crate futures_await_async_macro as async_macro;
 extern crate futures_await_await_macro as await_macro;
@@ -27,6 +33,12 @@ pub mod prelude {
     pub use futures::prelude::*;
     pub use async_macro::{async, async_stream, async_block, async_stream_block};
     pub use await_macro::{await, stream_yield};
+}
+
+#[cfg(not(feature = "use_std"))]
+mod std {
+    pub use alloc::*;
+    pub use core::*;
 }
 
 /// A hidden module that's the "runtime support" for the async/await syntax.
